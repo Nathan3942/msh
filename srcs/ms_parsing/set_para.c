@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_para.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:11:22 by njeanbou          #+#    #+#             */
-/*   Updated: 2024/07/03 18:43:26 by vboxuser         ###   ########.fr       */
+/*   Updated: 2024/07/05 18:03:26 by njeanbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,8 @@ int	set_para(t_params **param, char *input, t_env **env, t_put **put)
 	if (ft_error(inp_sep, false) != 0)
 		return (ft_error(inp_sep, true));
 	para = *param;
+	for(int z = 0; inp_sep[z] != NULL; z++)
+		printf("%s\n", inp_sep[z]);
 	init_com(&para, inp_sep, put, env);
 	para->next = NULL;
 	i = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 04:41:08 by njeanbou          #+#    #+#             */
-/*   Updated: 2024/06/14 14:37:15 by vboxuser         ###   ########.fr       */
+/*   Updated: 2024/07/05 18:05:16 by njeanbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,11 @@ static void	set_var_mid(t_params **para, t_env **env)
 	i = 0;
 	while ((*para)->com[i] != NULL)
 	{
-		if ((*para)->com[i][0] == '\'')
-			break ;
 		z = 0;
 		while ((*para)->com[i][z] != '\0')
 		{
+			if ((*para)->com[i][0] == '\'')
+				break ;
 			if ((*para)->com[i][z] == '$')
 			{
 				var = mid_var((*para)->com[i], env);

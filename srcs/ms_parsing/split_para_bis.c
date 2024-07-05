@@ -6,7 +6,7 @@
 /*   By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 11:58:31 by njeanbou          #+#    #+#             */
-/*   Updated: 2024/06/05 17:34:13 by njeanbou         ###   ########.fr       */
+/*   Updated: 2024/07/05 18:14:17 by njeanbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int	count_quote(char *str, int *i)
 	if (str[*i] == '\'')
 	{
 		(*i)++;
+		if (str[*i] == '\'')
+			return (0);
 		while (str[*i] != '\'')
 			(*i)++;
 		return (1);
@@ -52,6 +54,8 @@ int	count_quote(char *str, int *i)
 	if (str[*i] == '\"')
 	{
 		(*i)++;
+		if (str[*i] == '\"')
+			return (0);
 		while (str[*i] != '\"')
 			(*i)++;
 		return (1);
@@ -116,24 +120,14 @@ int	quote_len(char *str, int *i)
 	len = 0;
 	if (str[*i] == '\'')
 	{
-		(*i)++;
-		len++;
-		while (str[*i] != '\0' && str[*i] != '\'')
-		{
-			(*i)++;
-			len++;
-		}
+		len = len_quote(i, str, '\'');
 	}
 	else if (str[*i] == '\"')
 	{
-		(*i)++;
-		len++;
-		while (str[*i] != '\0' && str[*i] != '\"')
-		{
-			(*i)++;
-			len++;
-		}
+		len = len_quote(i, str, '\"');
 	}
 	(*i)++;
+	if (len == 1)
+		return (0);
 	return (len + 1);
 }

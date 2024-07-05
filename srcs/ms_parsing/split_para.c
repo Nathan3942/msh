@@ -6,7 +6,7 @@
 /*   By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:08:28 by njeanbou          #+#    #+#             */
-/*   Updated: 2024/06/19 16:48:02 by njeanbou         ###   ########.fr       */
+/*   Updated: 2024/07/05 18:05:47 by njeanbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	count_len(char *str, int *i)
 	int	len;
 
 	len = 0;
-	while (str[*i] == ' ')
+	while (str[*i] != '\0' && str[*i] == ' ')
 		(*i)++;
 	if (ft_isalnumm(str[*i]) == 1)
 	{
@@ -92,17 +92,10 @@ static char	**split_arg(char *str, char **dest, int nb_wd)
 	while (word < nb_wd)
 	{
 		len = count_len(str, &i);
-		dest[word] = (char *)malloc ((len + 1) * sizeof(char));
-		if (dest[word] == NULL)
-		{
-			while (word > 0)
-			{
-				free(dest[--word]);
-			}
-			free(dest);
-			return (NULL);
-		}
-		putword(dest[word++], str, i, len);
+		if (len != 0)
+			dest[word] = (char *)malloc ((len + 1) * sizeof(char));
+		if (len != 0)
+			putword(dest[word++], str, i, len);
 		len = 0;
 	}
 	dest[word] = NULL;

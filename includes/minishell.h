@@ -6,7 +6,7 @@
 /*   By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:51:36 by njeanbou          #+#    #+#             */
-/*   Updated: 2024/07/04 14:59:42 by njeanbou         ###   ########.fr       */
+/*   Updated: 2024/07/05 18:14:57 by njeanbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ void	print_error(int error, char *input);
 void	set_varbis(t_params **para, t_env **env);
 char	*mid_var(char *str, t_env **env);
 char	**mid_var_env(char **split_str, t_env **env);
+int		len_quote(int *i, char *str, char c);
 
 //error
 int		exec_error(int num);

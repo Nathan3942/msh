@@ -6,7 +6,7 @@
 #    By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/02 04:50:58 by njeanbou          #+#    #+#              #
-#    Updated: 2024/07/04 09:59:51 by njeanbou         ###   ########.fr        #
+#    Updated: 2024/07/05 16:30:59 by njeanbou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,9 @@ OBJS = ${SRCS:.c=.o}
 
 CC = gcc
 
-CFLAGS = -Werror -Wextra -Wall -fsanitize=address -I//Users/njeanbou/.brew/opt/readline/include
+CFLAGS = -Werror -Wextra -Wall -fsanitize=address -static-libasan 
+
+# -I/Users/njeanbou/.brew/opt/readline/include   -L/Users/njeanbou/.brew/opt/readline/lib 
 
 RM = rm -rf
 
@@ -33,7 +35,7 @@ all: ${NAME}
 ${NAME}: ${OBJS}
 				@printf "$(CURSIVE)- Compiling $(NAME)...$(RESET)\n"
 				@${MAKE} -C ./ms_libft
-				@${CC} ${CFLAGS} ${OBJS} ./ms_libft/libft.a -o ${NAME} -static-libsan -L/Users/njeanbou/.brew/opt/readline/lib -lreadline
+				@${CC} ${CFLAGS} ${OBJS} ./ms_libft/libft.a -o ${NAME} -lreadline
 				@printf "$(GREEN)- Executable $(NAME) ready.$(RESET)\n"
 
 %.o: %.c

@@ -6,7 +6,7 @@
 /*   By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 03:21:39 by njeanbou          #+#    #+#             */
-/*   Updated: 2024/05/29 15:34:56 by njeanbou         ###   ########.fr       */
+/*   Updated: 2024/07/05 18:28:07 by njeanbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,18 @@ void	print_all(t_params **para, t_env **env, t_put **put)
 
 		headp = headp->next;
 	}
-	printf("\n\nEnvironnement :\n");
+	// printf("\n\nEnvironnement :\n");
 	while (heade != NULL)
 	{
-		printf("%s=", heade->env_name);
-		printf("%s	", heade->env_value);
-		if (heade->is_exported == true)
-			printf("Exporté\n");
-		else
-			printf("Pas exporté\n");
-		heade = heade->next;
+	// 	printf("%s=", heade->env_name);
+	// 	printf("%s	", heade->env_value);
+	// 	if (heade->is_exported == true)
+	// 		printf("Exporté\n");
+	// 	else
+	// 		printf("Pas exporté\n");
+	 	heade = heade->next;
 	}
-	printf("\n\n\n");
+	printf("\n\n");
 }
 
 void	print_com(t_params **para)

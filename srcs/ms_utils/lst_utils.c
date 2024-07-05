@@ -6,7 +6,7 @@
 /*   By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 17:30:31 by njeanbou          #+#    #+#             */
-/*   Updated: 2024/06/04 15:17:27 by njeanbou         ###   ########.fr       */
+/*   Updated: 2024/07/05 18:23:09 by njeanbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,16 @@ char	*ft_strdup_quote(const char *s1)
 	z = 0;
 	if (dup == NULL)
 		return (NULL);
-	while (s1[i] != '\0' && s1[i] != '\'' && s1[i] != '\"')
-		dup[z++] = s1[i++];
+	if (s1[0] == '\'')
+	{
+		while (s1[i] != '\0' && s1[i] != '\'')
+			dup[z++] = s1[i++];
+	}
+	if (s1[0] == '\"')
+	{
+		while (s1[i] != '\0' && s1[i] != '\"')
+			dup[z++] = s1[i++];
+	}
 	dup[z] = '\0';
 	return (dup);
 }

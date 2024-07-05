@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:00:51 by njeanbou          #+#    #+#             */
-/*   Updated: 2024/07/03 18:20:08 by vboxuser         ###   ########.fr       */
+/*   Updated: 2024/07/05 18:15:02 by njeanbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,22 @@ char	*clean_input(char *raw_input)
 		return (NULL);
 	ft_strncpy(input, raw_input + beg, len - beg);
 	return (input);
+}
+
+int len_quote(int *i, char *str, char c)
+{
+	int	len;
+
+	len = 0;
+	if (str[*i] == c)
+	{
+		(*i)++;
+		len++;
+		while (str[*i] != '\0' && str[*i] != c)
+		{
+			(*i)++;
+			len++;
+		}
+	}
+	return (len);
 }
