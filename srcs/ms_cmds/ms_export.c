@@ -6,7 +6,7 @@
 /*   By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 17:10:28 by njeanbou          #+#    #+#             */
-/*   Updated: 2024/07/05 20:50:07 by njeanbou         ###   ########.fr       */
+/*   Updated: 2024/07/08 10:03:08 by njeanbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	mod_var(t_env *head, char **line, bool *new_var)
 	}
 }
 
-static char **set_line(char *var)
+static char	**set_line(char *var)
 {
 	char	**line;
 	int		i;
@@ -103,41 +103,6 @@ static int	add_export(char *var, t_env **env)
 	return (EXIT_SUCCESS);
 }
 
-static char	*set_var_export(char **com, int *i)
-{
-	char	*var;
-	char	*tmp;
-	
-	tmp = NULL;
-	if ((strchr(com[*i], '=') != NULL && *(strchr(com[*i], '=') + 1) != '\0') || (strchr(com[*i], '=') != NULL && com[*i + 1] == NULL))
-		var = ft_strdup(com[*i]);
-	else if (ft_strstr(com[*i], "=") == NULL && (com[*i + 1] == NULL || ft_strstr(com[*i + 1], "=") == NULL))
-		var = ft_strdup(com[*i]);
-	else if (ft_strstr(com[*i], "=") == NULL && ft_strequal(com[*i + 1], "=") == 0 && com[*i + 2] == NULL)
-	{
-		var = ft_strjoin(com[*i], com[*i + 1]);
-		(*i) += 1;
-	}
-	else if (ft_strstr(com[*i], "=") != NULL && com[*i + 1] != NULL)
-	{
-		var = ft_strjoin(com[*i], com[*i + 1]);
-		(*i) += 1;
-	}
-	else if (ft_strstr(com[*i], "=") == NULL && ft_strstr(com[*i + 1], "=") != NULL && ft_strequal(com[*i + 1], "=") == 1)
-	{
-		var = ft_strjoin(com[*i], com[*i + 1]);
-		(*i) += 1;
-	}
-	else if (ft_strstr(com[*i], "=") == NULL && ft_strequal(com[*i + 1], "=") == 0 && com[*i + 2] != NULL)
-	{
-		tmp = ft_strjoin(com[*i], com[*i + 1]);
-		var = ft_strjoin(tmp, com[*i + 2]);
-		free(tmp);
-		(*i) += 2;
-	}
-	return (var);
-}	
-
 int	ms_export(t_params *para, t_env **env)
 {
 	int		i;
@@ -154,15 +119,11 @@ int	ms_export(t_params *para, t_env **env)
 			if (para->com[i][0] != '=')
 			{
 				var = set_var_export(para->com, &i);
-				printf("var %s\n", var);
 				add_export(var, env);
 				free(var);
 			}
 			else
-			{
-				printf("%s : not a valid identifier\n", para->com[i]);
-				break ;
-			}
+				return (printf("%s : not a valid identifier\n", para->com[i]));
 			i++;
 		}
 	}

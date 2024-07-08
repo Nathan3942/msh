@@ -6,7 +6,7 @@
 /*   By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 04:04:52 by njeanbou          #+#    #+#             */
-/*   Updated: 2024/07/04 15:00:29 by njeanbou         ###   ########.fr       */
+/*   Updated: 2024/07/08 14:52:33 by njeanbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,27 @@ static char	*heredoc(char *exit, t_env **env)
 	return (res);
 }
 
+static char	*exit_word(char **com)
+{
+	int		i;
+	char	*exit_wd;
+
+	i = 0;
+	exit_wd = NULL;
+	while (com[i] != NULL)
+	{
+		if (com[i][0] == '<')
+		{
+			if (com[i + 1][0] == '\'' || com[i + 1][0] == '\"')
+				exit_wd = ft_strdup_quote(com[i + 1]);
+			else
+				exit_wd = ft_strdup(com[i + 1]);
+		}
+		i++;
+	}
+	return (exit_wd);
+}
+
 void	ft_doc(t_params **para, t_env **env, t_put **put)
 {
 	t_params	*head;
@@ -102,17 +123,13 @@ void	ft_doc(t_params **para, t_env **env, t_put **put)
 	exit_wd = NULL;
 	if (head->inp_red == entre2)
 	{
-		while (head->com[i] != NULL)
-		{
-			if (head->com[i][0] == '<')
-				exit_wd = head->com[i + 1];
-			i++;
-		}
+		exit_wd = exit_word(head->com);
 		(*put)->input = ft_strdup(exit_wd);
 		tmp = heredoc(exit_wd, env);
 		i = open(exit_wd, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 		if (tmp != NULL)
 			ft_putstr_fd(tmp, i);
 		free(tmp);
+		free(exit_wd);
 	}
 }

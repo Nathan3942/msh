@@ -6,7 +6,7 @@
 /*   By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:08:28 by njeanbou          #+#    #+#             */
-/*   Updated: 2024/07/05 18:05:47 by njeanbou         ###   ########.fr       */
+/*   Updated: 2024/07/08 12:53:06 by njeanbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ static int	count_word(char *str)
 			while (str[i] != '\0' && ft_isalnumm(str[i]) == 1)
 				i++;
 		}
-		len += count_quote(str, &i);
 		len += count_red(str, &i);
+		len += count_quote(str, &i);
 		if (str[i] != '\0')
 			i++;
 	}

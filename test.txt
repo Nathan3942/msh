@@ -1,9 +1,12 @@
 includes
-lol.c
+lala
 main.c
 main.o
 makefile
 minishell
 ms_libft
+out3
 srcs
+stop
+stop1
 test.txt

@@ -6,7 +6,7 @@
 /*   By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:31:24 by ichpakov          #+#    #+#             */
-/*   Updated: 2024/07/04 10:04:57 by njeanbou         ###   ########.fr       */
+/*   Updated: 2024/07/08 12:50:40 by njeanbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	open_file(char *file, int in_or_out)
 {
 	int	ret;
 
+	ret = 0;
 	if (in_or_out == 0)
 		ret = open(file, O_RDONLY, 0777);
 	if (in_or_out == 1)

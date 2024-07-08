@@ -6,7 +6,7 @@
 /*   By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 11:58:31 by njeanbou          #+#    #+#             */
-/*   Updated: 2024/07/05 18:14:17 by njeanbou         ###   ########.fr       */
+/*   Updated: 2024/07/08 11:17:14 by njeanbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	count_quote(char *str, int *i)
 		(*i)++;
 		if (str[*i] == '\'')
 			return (0);
-		while (str[*i] != '\'')
+		while (str[*i] != '\'' && str[*i] != '\0')
 			(*i)++;
 		return (1);
 	}
@@ -56,7 +56,7 @@ int	count_quote(char *str, int *i)
 		(*i)++;
 		if (str[*i] == '\"')
 			return (0);
-		while (str[*i] != '\"')
+		while (str[*i] != '\"' && str[*i] != '\0')
 			(*i)++;
 		return (1);
 	}

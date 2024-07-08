@@ -6,7 +6,7 @@
 /*   By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:51:36 by njeanbou          #+#    #+#             */
-/*   Updated: 2024/07/05 18:14:57 by njeanbou         ###   ########.fr       */
+/*   Updated: 2024/07/08 12:50:27 by njeanbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int		ms_echo(t_params *para);
 int		ms_env(t_env **env);
 void	ms_exit(t_params *para, t_env **env, t_data **data, t_put *put);
 int		ms_export(t_params *para, t_env **env);
+char	*set_var_export(char **com, int *i);
 int		ms_pwd(void);
 int		ms_unset(t_params *para, t_env **env);
 
@@ -117,6 +118,8 @@ void	set_varbis(t_params **para, t_env **env);
 char	*mid_var(char *str, t_env **env);
 char	**mid_var_env(char **split_str, t_env **env);
 int		len_quote(int *i, char *str, char c);
+char	*clean_quote(char *str);
+int		strequal_quote(const char *str, const char *re);
 
 //error
 int		exec_error(int num);

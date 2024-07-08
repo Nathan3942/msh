@@ -6,37 +6,11 @@
 /*   By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 04:41:08 by njeanbou          #+#    #+#             */
-/*   Updated: 2024/07/05 18:05:16 by njeanbou         ###   ########.fr       */
+/*   Updated: 2024/07/08 18:23:30 by njeanbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// static void	set_var_beg(t_params **para, t_env **env)
-// {
-// 	t_params	*headp;
-// 	char		*var;
-// 	int			i;
-
-// 	var = NULL;
-// 	headp = *para;
-// 	i = 0;
-// 	while (headp->com[i] != NULL)
-// 	{	
-// 		if (headp->com[i][0] == '$')
-// 		{
-// 			var = recherche_env(headp->com[i], env);
-// 			if (var[0] == ';' && ft_strlen(var) == 1)
-// 				var = "";
-// 			if (var != NULL)
-// 			{
-// 				free(headp->com[i]);
-// 				headp->com[i] = ft_strdup(var);
-// 			}
-// 		}
-// 		i++;
-// 	}
-// }
 
 char	**mid_var_env(char **split_str, t_env **env)
 {
@@ -46,7 +20,7 @@ char	**mid_var_env(char **split_str, t_env **env)
 	i = 0;
 	while (split_str[i] != NULL)
 	{
-		if (split_str[i][0] == '$')
+		if (split_str[i][0] == '$' && split_str[i][1] != '\0')
 		{
 			var = recherche_env(split_str[i], env);
 			if (var != NULL)
@@ -62,6 +36,86 @@ char	**mid_var_env(char **split_str, t_env **env)
 	return (split_str);
 }
 
+char	*clean_quote(char *str)
+{
+	int		i;
+	int		len;
+	int		z;
+	char	*res;
+
+	i = 0;
+	len = ft_strlen(str);
+	while (str[i] != '\0')
+	{
+		if (str[i] == '\'')
+			len--;
+		i++;
+	}
+	res = (char *)malloc ((len + 1) * sizeof(char));
+	i = 0;
+	z = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] != '\'')
+			res[z++] = str[i];
+		i++;
+	}
+	res[z] = '\0';
+	return (res);
+}
+
+static int	count_rp_quote(char *var, char *str)
+{
+	int	i;
+	int	z;
+
+	i = 0;
+	z = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == '\'' || str[i] == '\"' || str[i] == ' ' || (str[i] == '$' && ft_isalnum(str[i + 1])))
+			z++;
+		i++;
+	}
+	i = 0;
+	while (var[i] != '\0')
+	{
+		if (var[i] != '\'' || var[i] != '\"')
+			z++;
+		i++;
+	}
+	return (z);
+}
+
+static char	*replace_quote(char *var, char *str)
+{
+	char	*res;
+	int		i;
+	int		z;
+	int		y;
+
+	res = NULL;
+	i = -1;
+	z = count_rp_quote(var, str);
+	res = (char *)malloc ((z + 1) * sizeof(char));
+	while (str[++i] == '\'' || str[i] == '\"' || str[i] == ' ' || (str[i] != '$' && ft_isalnum(str[i + 1] == 1)))
+		res[i] = str[i];
+	z = 0;
+	y = i;
+	while (var[z] == '\'' || var[z] == '\"' || str[i] == ' ')
+		z++;
+	while (var[z] != '\'' && var[z] != '\"')
+		res[i++] = var[z++];
+	z = 0;
+	while (str[y] != '\'' && str[y] != '\"')
+		y++;
+	while (str[y] != '\0')
+		res[i++] = str[y++];
+	res[i] = '\0';
+	free(var);
+	return (res);
+}
+
 char	*mid_var(char *str, t_env **env)
 {
 	char	**split_str;
@@ -69,7 +123,11 @@ char	*mid_var(char *str, t_env **env)
 	char	*tmp;
 	int		i;
 
-	split_str = split_var(str);
+	var = clean_quote(str);
+	split_str = split_var(var);
+	for(int z = 0; split_str[z] != NULL; z++)
+		printf("split var %s\n", split_str[z]);
+	free(var);
 	split_str = mid_var_env(split_str, env);
 	i = 0;
 	var = ft_strdup("");
@@ -82,11 +140,23 @@ char	*mid_var(char *str, t_env **env)
 		i++;
 	}
 	var = clean_var(var);
+	if (var[0] == '\'' || var[0] == '\"')
+		var = replace_quote(var, str);
 	ft_free_tab(split_str);
 	return (var);
 }
 
-static void	set_var_mid(t_params **para, t_env **env)
+static int	condition_var(char	**com, int *i, int *z)
+{
+	if (com[*i][*z] == '$' && (com[*i][*z + 1] != '\0'
+		&& com[*i][*z + 1] != '\'' && com[*i][*z + 1] != '\"'
+		&& com[*i][*z + 1] != ' '))
+		return (0);
+	else
+		return (1);
+}
+
+void	set_var(t_params **para, t_env **env)
 {
 	char		*var;
 	int			i;
@@ -99,11 +169,13 @@ static void	set_var_mid(t_params **para, t_env **env)
 		z = 0;
 		while ((*para)->com[i][z] != '\0')
 		{
-			if ((*para)->com[i][0] == '\'')
+			if ((*para)->com[i][z] == '\'' && (*para)->com[i][0] != '\"')
 				break ;
-			if ((*para)->com[i][z] == '$')
+			if (condition_var((*para)->com, &i, &z) == 0)
 			{
+				printf("var %s\n", (*para)->com[i]);
 				var = mid_var((*para)->com[i], env);
+				printf("var %s\n", var);
 				free((*para)->com[i]);
 				(*para)->com[i] = ft_strdup(var);
 				free(var);
@@ -115,18 +187,3 @@ static void	set_var_mid(t_params **para, t_env **env)
 	}
 }
 
-void	set_var(t_params **para, t_env **env)
-{
-	int	i;
-	int	z;
-
-	i = 0;
-	z = 0;
-	while ((*para)->com[i] != NULL)
-	{
-		if ((*para)->com[i][z] == '\'')
-			break ;
-		i++;
-	}
-	set_var_mid(para, env);
-}

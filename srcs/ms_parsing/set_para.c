@@ -6,7 +6,7 @@
 /*   By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:11:22 by njeanbou          #+#    #+#             */
-/*   Updated: 2024/07/05 18:03:26 by njeanbou         ###   ########.fr       */
+/*   Updated: 2024/07/08 14:54:28 by njeanbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int	count_com(t_params *para, t_put *put)
 	{
 		if (para->com[i][0] != '<' && para->com[i][0] != '>')
 		{
-			if ((ft_strequal(para->com[i], put->output) == 1
-					&& ft_strequal(para->com[i], put->input) == 1))
+			if ((strequal_quote(para->com[i], put->output) == 1
+					&& strequal_quote(para->com[i], put->input) == 1))
 				z++;
 		}
 		i++;
@@ -43,8 +43,8 @@ char	**set_com(t_params *para, t_put *put, char **com)
 	{
 		if (para->com[i][0] != '<' && para->com[i][0] != '>')
 		{
-			if ((ft_strequal(para->com[i], put->output) == 1
-					&& ft_strequal(para->com[i], put->input) == 1))
+			if ((strequal_quote(para->com[i], put->output) == 1
+					&& strequal_quote(para->com[i], put->input) == 1))
 			{
 				if (para->com[i][0] == '\"' || para->com[i][0] == '\'')
 					com[z] = ft_strdup_quote(para->com[i]);
@@ -118,6 +118,8 @@ int	set_para(t_params **param, char *input, t_env **env, t_put **put)
 	for(int z = 0; inp_sep[z] != NULL; z++)
 		printf("%s\n", inp_sep[z]);
 	init_com(&para, inp_sep, put, env);
+	for(int z = 0; para->com[z] != NULL; z++)
+		printf("%s\n", para->com[z]);
 	para->next = NULL;
 	i = 0;
 	while (inp_sep[i] != NULL)
