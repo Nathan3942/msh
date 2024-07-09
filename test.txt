@@ -10,3 +10,4 @@ srcs
 stop
 stop1
 test.txt
+kaka

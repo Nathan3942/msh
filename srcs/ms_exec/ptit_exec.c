@@ -6,25 +6,26 @@
 /*   By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:02:34 by ichpakov          #+#    #+#             */
-/*   Updated: 2024/07/08 11:47:59 by njeanbou         ###   ########.fr       */
+/*   Updated: 2024/07/09 20:00:58 by njeanbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ms_exec(t_params *cmds, char **env, t_env *t_env)
+void	ms_exec(t_params *cmds, char **env, t_env *t_envv)
 {
 	char	**s_cmd;
 	char	*path;
 
-	while (t_env)
+	while (t_envv)
 	{
-		if (ft_strstr(t_env->env_name, "PATH"))
+		if (ft_strstr(t_envv->env_name, "PATH"))
 			break ;
-		t_env = t_env->next;
+		t_envv = t_envv->next;
 	}
-	if (!t_env)
+	if (!t_envv)
 	{
+		ft_free_tab(env);
 		printf(MSG_NOT_FOUND"%s\n", cmds->com[0]);
 		exit(2);
 	}

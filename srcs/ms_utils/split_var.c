@@ -6,7 +6,7 @@
 /*   By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 15:53:13 by njeanbou          #+#    #+#             */
-/*   Updated: 2024/07/08 17:59:32 by njeanbou         ###   ########.fr       */
+/*   Updated: 2024/07/09 16:49:09 by njeanbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ int	count_wd_var(char *str)
 		len++;
 	while (str[i] != '\0')
 	{
-		if (str[i] == '\"' || str[i] == ' ' || str[i] == '$' || str[i] == '\n')
+		if (str[i] == '\"' || str[i] == '\'' || str[i] == ' ' || str[i] == '$' || str[i] == '\n')
 			len++;
 		i++;
 	}
@@ -176,7 +176,7 @@ int	count_len(char *str, int *i, bool *var)
 			(*var) = true;
 			break ;
 		}
-		if ((str[*i] == ' ' || str[*i] == '\"' || str[*i] == '\n')
+		if ((str[*i] == ' ' || str[*i] == '\''  || str[*i] == '\"' || str[*i] == '\n')
 			&& (*var) == true)
 		{
 			(*var) = false;

@@ -6,7 +6,7 @@
 /*   By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:26:14 by ichpakov          #+#    #+#             */
-/*   Updated: 2024/07/04 12:36:09 by njeanbou         ###   ########.fr       */
+/*   Updated: 2024/07/09 19:50:52 by njeanbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,25 +55,21 @@ char	*get_path(char *cmd, char **env)
 	char	*exec;
 	char	**allpath;
 	char	*path_part;
-	char	**s_cmd;
 
 	i = -1;
 	allpath = ft_split(my_getenv("PATH", env), ':');
-	s_cmd = ft_split(cmd, ' ');
+	if (!allpath)
+		return (NULL);
 	while (allpath[++i])
 	{
 		path_part = ft_strjoin(allpath[i], "/");
-		exec = ft_strjoin(path_part, s_cmd[0]);
+		exec = ft_strjoin(path_part, cmd);
 		free(path_part);
 		if (access(exec, F_OK | X_OK) == 0)
-		{
-			ft_free_tab(s_cmd);
 			return (exec);
-		}
 		free(exec);
 	}
 	ft_free_tab(allpath);
-	ft_free_tab(s_cmd);
 	return (cmd);
 }
 
@@ -85,10 +81,7 @@ int	execve_checker(char **cmd)
 	char	*path_part;
 
 	i = -1;
-	allpath = NULL;
 	allpath = ft_split(getenv("PATH"), ':');
-	if (!allpath)
-		return (printf(MSG_NOT_FOUND"%s\n", cmd[0]));
 	while (allpath[++i])
 	{
 		path_part = ft_strjoin(allpath[i], "/");
@@ -96,11 +89,14 @@ int	execve_checker(char **cmd)
 		free(path_part);
 		if (access(exec, F_OK | X_OK) == 0 || (ft_strchr(cmd[0], '/') != NULL
 				&& access(cmd[0] + 1, F_OK | X_OK)))
+		{
+			free(exec);
+			ft_free_tab(allpath);
 			return (1);
+		}
 		free(exec);
 	}
 	ft_free_tab(allpath);
-	ft_putstr_fd(MSG_NOT_FOUND, 2);
-	ft_putendl_fd(cmd[0], 2);
+	printf(MSG_NOT_FOUND"%s\n", cmd[0]);
 	exit(1);
 }
