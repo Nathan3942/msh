@@ -6,7 +6,7 @@
 /*   By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:51:36 by njeanbou          #+#    #+#             */
-/*   Updated: 2024/07/08 12:50:27 by njeanbou         ###   ########.fr       */
+/*   Updated: 2024/07/10 19:30:25 by njeanbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,9 @@ char	**mid_var_env(char **split_str, t_env **env);
 int		len_quote(int *i, char *str, char c);
 char	*clean_quote(char *str);
 int		strequal_quote(const char *str, const char *re);
+char	*clean_quote_var(char *str);
+int		cond_var(char **com, int i);
+void	free_var(t_params **para, int i);
 
 //error
 int		exec_error(int num);

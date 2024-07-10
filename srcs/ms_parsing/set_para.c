@@ -6,7 +6,7 @@
 /*   By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:11:22 by njeanbou          #+#    #+#             */
-/*   Updated: 2024/07/08 14:54:28 by njeanbou         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:48:01 by njeanbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,11 +115,7 @@ int	set_para(t_params **param, char *input, t_env **env, t_put **put)
 	if (ft_error(inp_sep, false) != 0)
 		return (ft_error(inp_sep, true));
 	para = *param;
-	for(int z = 0; inp_sep[z] != NULL; z++)
-		printf("%s\n", inp_sep[z]);
 	init_com(&para, inp_sep, put, env);
-	for(int z = 0; para->com[z] != NULL; z++)
-		printf("%s\n", para->com[z]);
 	para->next = NULL;
 	i = 0;
 	while (inp_sep[i] != NULL)

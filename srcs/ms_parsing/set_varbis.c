@@ -6,117 +6,112 @@
 /*   By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 19:32:47 by njeanbou          #+#    #+#             */
-/*   Updated: 2024/06/19 16:43:57 by njeanbou         ###   ########.fr       */
+/*   Updated: 2024/07/10 19:29:39 by njeanbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	var_count(char *var, int len)
+static void	mod_var(t_env *head, char **line, bool *new_var)
 {
-	int	i;
+	while (head != NULL)
+	{
+		if (ft_strequal(head->env_name, line[0]) == 0
+			&& head->is_exported == true)
+		{
+			free(head->env_value);
+			head->env_value = ft_strdup(line[1]);
+			(*new_var) = true;
+		}
+		if (ft_strequal(head->env_name, line[0]) == 0
+			&& head->is_exported == false)
+		{
+			head->is_exported = true;
+			(*new_var) = true;
+		}
+		head = head->next;
+	}
+}
+
+static char	**set_line(char *var)
+{
+	char	**line;
+	int		i;
 
 	i = 0;
-	if (len == 0)
+	if (ft_strstr(var, "=") != NULL)
 	{
-		while (var[len] != '\0')
+		line = (char **)malloc (3 * sizeof(char *));
+		line[0] = (char *)malloc (ft_strlen(var) * sizeof(char));
+		while (var[i + 1] != '\0')
 		{
-			if (var[len] == '=')
-				return (len);
-			len++;
+			line[0][i] = var[i];
+			i++;
 		}
+		line[0][i] = '\0';
+		line[1] = ft_strdup("");
+		line[2] = NULL;
 	}
 	else
 	{
-		while (var[len] != '\0')
-		{
-			len++;
-			i++;
-		}
+		line = (char **)malloc(3 * sizeof(char *));
+		line[0] = ft_strdup(var);
+		line[1] = ft_strdup("");
+		line[2] = NULL;
 	}
-	return (i - 1);
-}
-
-static char	**var_split(char *var)
-{
-	int		len;
-	int		i;
-	char	**line;
-
-	i = 0;
-	line = (char **)malloc (3 * sizeof(char *));
-	len = var_count(var, 0);
-	line[0] = (char *)malloc ((len + 1) * sizeof(char));
-	while (var[i] != '=' && var[i] != '\0')
-	{
-		line[0][i] = var[i];
-		i++;
-	}
-	line[0][i] = '\0';
-	i++;
-	len = var_count(var, len);
-	line[1] = (char *)malloc ((len + 1) * sizeof(char));
-	len = 0;
-	while (var[i] != '\0')
-		line[1][len++] = var[i++];
-	line[1][len] = '\0';
-	line[2] = NULL;
 	return (line);
 }
 
-static void	varbis(char *var, t_env **env)
+static int	add_varbis(char *var, t_env **env)
 {
-	t_env	*head;
 	t_env	*new;
+	t_env	*head;
 	char	**line;
 	bool	new_var;
 
 	head = *env;
 	new_var = false;
-	line = var_split(var);
-	while (head != NULL)
+	if (ft_strstr(var, "=") != NULL && (*(ft_strstr(var, "=") + 1)) != '\0')
+		line = ft_split(var, '=');
+	else
 	{
-		if (ft_strequal(head->env_name, line[0]) == 0)
-		{
-			free(head->env_value);
-			head->env_value = ft_strdup(line[1]);
-			new_var = true;
-		}
-		head = head->next;
+		line = set_line(var);
 	}
+	mod_var(head, line, &new_var);
 	if (new_var == false)
 	{
-		new = new_node(line[0], line[1], false);
+		new = new_node(line[0], line[1], true);
 		ft_lstadd_back_env(env, new);
 	}
 	ft_free_tab(line);
+	return (EXIT_SUCCESS);
 }
 
 void	set_varbis(t_params **para, t_env **env)
 {
-	int	i;
-	int	z;
+	int		i;
+	int		z;
+	char	*var;
+	char	*tmp;
 
+	var = NULL;
+	tmp = NULL;
 	i = 0;
-	z = 0;
-	while ((*para)->com[z] != NULL && (*para)->com[z][0] != '\0')
+	if ((*para)->com[0] != NULL && (*para)->com[1] != NULL
+		&& (*para)->com[2] != NULL && (*para)->com[3] != NULL)
+		return ;
+	while ((*para)->com[i] != NULL)
 	{
-		if (ft_strstr((*para)->com[z], "=") == NULL)
-			break ;
-		if ((*para)->com[z + 1] == NULL && (*para)->com[z][0] == '=')
-			return ;
-		while ((*para)->com[z] != NULL && (*para)->com[z][i] != '\0')
+		if ((*para)->com[i][0] != '=' && cond_var((*para)->com, i) != 0)
 		{
-			if ((*para)->com[z][i] == '=')
-			{
-				varbis((*para)->com[z], env);
-				free((*para)->com[z]);
-				(*para)->com[z] = NULL;
-				break ;
-			}
-			i++;
+			z = i;
+			var = set_var_export((*para)->com, &i);
+			tmp = clean_quote_var(var);
+			free(var);
+			add_varbis(tmp, env);
+			free(tmp);
+			free_var(para, z);
 		}
-		z++;
+		i++;
 	}
-	return ;
 }
