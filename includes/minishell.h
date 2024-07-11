@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:51:36 by njeanbou          #+#    #+#             */
-/*   Updated: 2024/07/10 19:30:25 by njeanbou         ###   ########.fr       */
+/*   Updated: 2024/07/11 05:48:33 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,18 @@
 
 //extern volatile sig_atomic_t	g_heredoc_interrupted;
 
+#define GREEN_TEXT "\033[0;92m"
+#define RESET_TEXT "\033[0m"
+# define WELCOME_MSG GREEN_TEXT "\
+##############################################\n\
+#                                            #\n\
+#            _       _     _          _ _    #\n\
+#  _ __ ___ (_)_ __ (_)___| |__   ___| | |   #\n\
+# | '_ ` _ \\| | '_ \\| / __| '_ \\ / _ \\ | |   #\n\
+# | | | | | | | | | | \\__ \\ | | |  __/ | |   #\n\
+# |_| |_| |_|_|_| |_|_|___/_| |_|\\___|_|_|   #\n\
+#                                            #\n\
+##############################################\n"
 # define MSG_SYNTAX "minishell: syntax error near unexpected token\n"
 # define MSG_QUOTE "minishell: unclosed quote\n"
 # define MSG_HEREDOC "minishell: two heredoc\n"
@@ -145,7 +157,7 @@ int		ms_mycmds(t_params *cmds);
 char	**get_env(t_env **env);
 void	ft_free_tab(char **tab);
 int		is_builded_cmd(char *cmd);
-int		execve_checker(char **cmd);
+int 	execve_checker(char **cmd, t_env **env);
 int		check_exe(t_params **cmds);
 pid_t	ft_getpid(void);
 int		ms_redir_exec(t_data *data, t_params *cmds, t_put *puts, t_env **env);
@@ -167,5 +179,6 @@ void	ft_lstadd_back_env(t_env **lst, t_env *new);
 int		ft_lstsize_env(t_env *lst);
 void	add_status(t_env **env, int status);
 char	*ft_strdup_quote(const char *s1);
+int		search_env(char *str, t_env **env);
 
 #endif

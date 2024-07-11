@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:52:31 by njeanbou          #+#    #+#             */
-/*   Updated: 2024/07/08 14:52:42 by njeanbou         ###   ########.fr       */
+/*   Updated: 2024/07/11 05:23:30 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	loop_shell(t_params *para, t_env *lstenv, t_put *put, t_data *data)
 			error = set_para(&para, input, &lstenv, &put);
 			if (error == 0 && para->com[0] != NULL)
 			{
-				print_all(&para, &lstenv, &put);
+				//print_all(&para, &lstenv, &put);
 				add_status(&lstenv, ms_exec_loop(data, &para, put, &lstenv));
 			}
 			if (error != 0)
@@ -62,7 +62,7 @@ void	loop_shell(t_params *para, t_env *lstenv, t_put *put, t_data *data)
 				free_error(&para, &put, &data);
 			}
 			else
-				free_all(&para, &put, &data);
+				free_all(&para, &put, &data);	
 		}
 		else if (isatty(STDIN_FILENO) == 0)
 			exit(EXIT_SUCCESS);
@@ -97,6 +97,7 @@ int	main(int argc, char **argv, char **env)
 	t_put		*put;
 	t_data		*data;
 
+	printf("\n%s\n\n", WELCOME_MSG);
 	para = NULL;
 	put = NULL;
 	data = NULL;

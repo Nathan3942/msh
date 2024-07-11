@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ptit_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:02:34 by ichpakov          #+#    #+#             */
-/*   Updated: 2024/07/09 20:00:58 by njeanbou         ###   ########.fr       */
+/*   Updated: 2024/07/11 05:55:49 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,16 +93,19 @@ int	ms_redir_exec(t_data *data, t_params *cmds, t_put *puts, t_env **env)
 static void	supp_heredoc(t_data *data, t_env **env, t_put *puts)
 {
 	char	**rm;
+	char	**var_env;
 
+	var_env = get_env(env);
 	rm = malloc (3 * sizeof(char *));
 	rm[0] = "rm";
 	rm[1] = puts->input;
 	rm[2] = NULL;
 	data->pid = fork();
 	if (data->pid == 0)
-		execve(get_path("rm", get_env(env)), rm, get_env(env));
+		execve(get_path("rm", var_env), rm, var_env);
 	else
 		waitpid(data->pid, 0, 0);
+	ft_free_tab(var_env);
 	free(rm);
 }
 

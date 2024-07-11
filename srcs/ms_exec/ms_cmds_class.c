@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_cmds_class.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 23:17:22 by ichpakov          #+#    #+#             */
-/*   Updated: 2024/07/04 12:37:17 by njeanbou         ###   ########.fr       */
+/*   Updated: 2024/07/11 05:44:33 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ char	**get_env(t_env **env)
 	while (head != NULL)
 	{
 		len = count_env_maillon(head);
-		ex_env[i] = (char *)malloc ((len + 1) * sizeof(char));
 		ex_env[i] = ft_strjoin_c(head->env_name, head->env_value, '=');
 		i++;
 		head = head->next;
@@ -116,7 +115,7 @@ int	ms_exec_class(t_params *cmds, t_env **env, t_data **data, t_put *puts)
 		ms_env(env);
 	else if (ft_strequal(cmds->com[0], "exit") == 0)
 		ms_exit(cmds, env, data, puts);
-	else if (execve_checker(cmds->com) == 1)
+	else if (execve_checker(cmds->com, env) == 1)
 	{
 		ms_exec(cmds, get_env(env), *env);
 		exec_error(2);

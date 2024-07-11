@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_para.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:11:22 by njeanbou          #+#    #+#             */
-/*   Updated: 2024/07/10 16:48:01 by njeanbou         ###   ########.fr       */
+/*   Updated: 2024/07/11 05:29:30 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ void	init_com(t_params **para, char **com, t_put **put, t_env **env)
 	set_enum(para);
 	ft_doc(para, env, put);
 	set_var(para, env);
-	set_varbis(para, env);
 }
 
 int	set_para(t_params **param, char *input, t_env **env, t_put **put)
