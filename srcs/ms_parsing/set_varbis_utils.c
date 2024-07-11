@@ -6,7 +6,7 @@
 /*   By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 19:29:03 by njeanbou          #+#    #+#             */
-/*   Updated: 2024/07/10 19:31:03 by njeanbou         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:56:26 by njeanbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ int	cond_var(char **com, int i)
 {
 	if (com[i] != NULL && ft_strstr(com[i], "=") != NULL && com[i + 1] == NULL)
 		return (1);
-	else if (com[i] != NULL && com[i + 1] != NULL && ft_strstr(com[i], "=") != NULL)
+	else if (com[i] != NULL && com[i + 1] != NULL
+		&& ft_strstr(com[i], "=") != NULL)
 		return (2);
 	else if (com[i] && com[i + 1] != NULL
 		&& ft_strstr(com[i + 1], "=") != NULL && com[i + 2] == NULL)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ex_path.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:26:14 by ichpakov          #+#    #+#             */
-/*   Updated: 2024/07/11 05:59:58 by vboxuser         ###   ########.fr       */
+/*   Updated: 2024/07/11 15:19:37 by njeanbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,31 +73,31 @@ char	*get_path(char *cmd, char **env)
 	return (cmd);
 }
 
-int execve_checker(char **cmd, t_env **env)
+int	execve_checker(char **cmd, t_env **env)
 {
-    int        i;
-    char    *exec;
-    char    **allpath;
-    char    *path_part;
+	int		i;
+	char	*exec;
+	char	**allpath;
+	char	*path_part;
 
-    i = -1;
+	i = -1;
 	if (search_env("PATH", env) == 1)
 	{
 		printf(MSG_NOT_FOUND"%s\n", cmd[0]);
 		return (0);
 	}
-    allpath = ft_split(getenv("PATH"), ':');
-    while (allpath[++i])
-    {
-        path_part = ft_strjoin(allpath[i], "/");
-        exec = ft_strjoin(path_part, cmd[0]);
-        free(path_part);
+	allpath = ft_split(getenv("PATH"), ':');
+	while (allpath[++i])
+	{
+		path_part = ft_strjoin(allpath[i], "/");
+		exec = ft_strjoin(path_part, cmd[0]);
+		free(path_part);
 		if (access(exec, F_OK | X_OK) == 0 || (ft_strchr(cmd[0], '/') != NULL
 				&& access(cmd[0] + 1, F_OK | X_OK)))
 			return (1);
 		free(exec);
-    }
-    ft_free_tab(allpath);
+	}
+	ft_free_tab(allpath);
 	printf(MSG_NOT_FOUND"%s\n", cmd[0]);
-    return (0);
+	return (0);
 }

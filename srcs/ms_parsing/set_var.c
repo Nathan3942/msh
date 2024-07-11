@@ -6,7 +6,7 @@
 /*   By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 04:41:08 by njeanbou          #+#    #+#             */
-/*   Updated: 2024/07/09 17:10:18 by njeanbou         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:56:58 by njeanbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ void	set_var(t_params **para, t_env **env)
 	int			i;
 	int			z;
 
-	var = NULL;
 	i = 0;
 	while ((*para)->com[i] != NULL)
 	{
@@ -113,7 +112,8 @@ void	set_var(t_params **para, t_env **env)
 		{
 			if ((*para)->com[i][z] == '\'' && (*para)->com[i][0] != '\"')
 				break ;
-			if (condition_var((*para)->com, &i, &z) == 0 && (*para)->inp_red != entre2)
+			if (condition_var((*para)->com, &i, &z) == 0
+				&& (*para)->inp_red != entre2)
 			{
 				var = mid_var((*para)->com[i], env);
 				free((*para)->com[i]);
@@ -126,4 +126,3 @@ void	set_var(t_params **para, t_env **env)
 		i++;
 	}
 }
-

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   recherche_env.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njeanbou <njeanbou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 04:52:22 by njeanbou          #+#    #+#             */
-/*   Updated: 2024/07/11 05:51:09 by vboxuser         ###   ########.fr       */
+/*   Updated: 2024/07/11 15:08:14 by njeanbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ int	search_env(char *str, t_env **env)
 	{
 		if (ft_strequal(str, head->env_name) == 0)
 		{
-			if (head->env_value == NULL)
+			if (!head->env_value || ft_strstr(head->env_value, "") == NULL)
 				return (1);
-			else 
+			else
 				return (0);
 		}
 		head = head->next;
